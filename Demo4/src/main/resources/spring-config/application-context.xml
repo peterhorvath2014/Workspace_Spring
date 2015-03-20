@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+	<context:property-placeholder
+		location="classpath:/spring-config/system.properties" />
+
+	<!-- <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"> 
+		<property name="locations"> <list> <value>classpath:/spring-config/system.properties</value> 
+		</list> </property> <property name="ignoreUnresolvablePlaceholders" value="true" 
+		/> </bean> -->
+
+	<!-- Constructor Injection -->
+	<bean id="accountService" class="hu.epam.course.spring.service.DefaultAccountService">
+		<constructor-arg ref="accountDAO" />
+		<constructor-arg value="${timeout}" />
+	</bean>
+
+
+	<bean id="accountDAO" class="hu.epam.course.spring.dao.DefaultAccountDAO">
+		<property name="acc" ref="hu.epam.course.spring.model.Account" />
+		<!-- Compound property value -->
+		<property name="acc.owner" ref="hu.epam.course.spring.model.User" />
+	</bean>
+
+	<!-- Property Injection -->
+	<bean class="hu.epam.course.spring.model.Account">
+		<property name="accountName" value="account1" />
+		<property name="accountNumber" value="12345467-00000000-12345678" />
+		<property name="balance" value="1234.234" />
+	</bean>
+
+
+	<!-- Property Injection -->
+	<bean class="hu.epam.course.spring.model.User">
+		<property name="name" value="Teszt Elek" />
+		<property name="userId" value="1" />
+		<property name="birthDate" value="1982-02-01"></property>
+	</bean>
+
+	<bean id="domainNameTest" class="hu.epam.course.spring.editor.DomainName">
+		<property name="pattern">
+			<value>[a-zA-Z0-9\.]+(com|hu|eu)</value>
+		</property>
+	</bean>
+
+	<!-- Property Editor registration -->
+	<bean id="dateEditor"
+		class="org.springframework.beans.propertyeditors.CustomDateEditor">
+
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="yyyy-MM-dd" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+	</bean>
+	
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="customEditors">
+			<map>
+				<entry key="java.util.Date">
+					<ref local="dateEditor" />
+				</entry>
+				<entry key="java.util.regex.Pattern">
+					<bean class="hu.epam.course.spring.editor.RegexPropertyEditor" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- a stateful bean deployed as a prototype (non-singleton) -->
+	<bean id="command" class="hu.epam.course.spring.mi.Command" scope="prototype">
+		<!-- inject dependencies here as required -->
+	</bean>
+
+	<!-- commandProcessor uses statefulCommandHelper -->
+	<bean id="commandManager" class="hu.epam.course.spring.mi.CommandManager">
+		<lookup-method name="createCommand" bean="command" />
+	</bean>
+
+</beans>

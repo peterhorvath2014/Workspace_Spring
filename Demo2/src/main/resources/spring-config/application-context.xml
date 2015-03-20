@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+
+
+	<util:list id="accountList" list-class="java.util.ArrayList">
+		<ref bean="acc1" />
+		<ref bean="acc2" />
+	</util:list>
+
+	<util:constant id="appTimeout"
+		static-field="hu.epam.course.spring.common.Configuration.TIMEOUT" />
+
+	<!-- Constructor Injection -->
+	<bean id="accountService" class="hu.epam.course.spring.service.DefaultAccountService"
+		c:accountDAO-ref="accountDAO" c:timeOut="#{appTimeout}" p:innerConfig-ref="innerConfig">
+	</bean>
+
+	<!-- <bean id="accountService2" class="hu.epam.course.spring.service.AccountService" 
+		c:_0-ref="accountDAO" c:_1="24"> </bean -->
+
+	<bean id="accountDAO" class="hu.epam.course.spring.dao.DefaultAccountDAO"
+		p:accountList-ref="accountList" />
+
+	<!-- Property Injection -->
+	<bean id="acc1" class="hu.epam.course.spring.model.Account"
+		p:balance="1234.234" p:accountNumber="12345467-00000000-12345678"
+		p:accountName="account1" p:owner-ref="hu.epam.course.spring.model.User" />
+	<bean id="acc2" class="hu.epam.course.spring.model.Account"
+		p:balance="2345.123" p:accountNumber="12345600-00000000-12345600"
+		p:accountName="account2" p:owner-ref="hu.epam.course.spring.model.User" />
+
+	<!-- Property Injection -->
+	<bean class="hu.epam.course.spring.model.User" p:name="Teszt Elek"
+		p:userId="1124" />
+		
+	<!-- Inner bean access -->
+	<bean id="innerConfig" class="hu.epam.course.spring.common.Configuration$InnerConfig"/>
+	
+	<!--  static factory method example -->
+	<bean id="serviceLocator" class="hu.epam.course.spring.service.factorymethod.ServiceLocator" factory-method="getLocator"/>
+
+	<!-- instance factory method example -->
+	<bean id="cardPayment" factory-bean="serviceLocator" factory-method="getCardPayment"/>
+	<bean id="cashPayment" factory-bean="serviceLocator" factory-method="getCashPayment"/>
+
+</beans>

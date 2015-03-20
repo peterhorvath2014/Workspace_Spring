@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- Constructor Injection -->
+	<bean id="accountService" class="hu.epam.course.spring.service.DefaultAccountService">
+		<constructor-arg ref="accountDAO" />
+		<constructor-arg ref="userDAO" />
+		<constructor-arg value="24" />
+	</bean>
+
+	<bean id="accountService2" class="hu.epam.course.spring.service.DefaultAccountService">
+		<constructor-arg ref="accountDAO" />
+		<constructor-arg ref="userDAO" />
+		<constructor-arg type="int" value="25" />
+	</bean>
+
+	<bean id="accountService3" class="hu.epam.course.spring.service.DefaultAccountService">
+		<constructor-arg index="0" ref="accountDAO" />
+		<constructor-arg ref="userDAO" />
+		<constructor-arg index="2" type="int" value="26" />
+	</bean>
+
+	<bean id="accountDAO" class="hu.epam.course.spring.dao.DefaultAccountDAO">
+		<property name="acc" ref="hu.epam.course.spring.model.Account" />
+		<!-- Compound property value -->
+		<property name="acc.owner" ref="user" />
+	</bean>
+
+	<bean id="userDAO" class="hu.epam.course.spring.dao.DefaultUserDAO">
+		<property name="usersAndRoles">
+			<map>
+				<entry key-ref="user">
+					<list>
+						<bean id="adminRole" class="hu.epam.course.spring.model.Role">
+							<property name="roleName" value="admin" />
+						</bean>
+						<bean id="editorRole" class="hu.epam.course.spring.model.Role">
+							<property name="roleName" value="editor" />
+						</bean>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- Property Injection -->
+	<bean class="hu.epam.course.spring.model.Account">
+		<property name="accountName" value="account1" />
+		<property name="accountNumber" value="12345467-00000000-12345678" />
+		<property name="balance" value="1234.234" />
+	</bean>
+
+	<!-- Example User bean -->
+	<bean id="user" class="hu.epam.course.spring.model.User">
+		<property name="name"><null/></property>
+		<property name="userId" value="1" />
+		<property name="addresses">
+			<list>
+				<bean id="address1" class="hu.epam.course.spring.model.Address">
+					<property name="country" value="Hungary" />
+					<property name="city" value="Budapest" />
+					<property name="street" value="Arany János u. 10" />
+					<property name="zipCode" value="1071" />
+				</bean>
+				<bean id="address2" class="hu.epam.course.spring.model.Address">
+					<property name="country" value="Germany" />
+					<property name="city" value="Berlin" />
+					<property name="street" value="Rosenthaler Straße 39" />
+					<property name="zipCode" value="10178" />
+				</bean>
+			</list>
+		</property>
+		<property name="contactInformations">
+			<props>
+				<prop key="email">admin@et@epam.hu</prop>
+				<prop key="phone">+36202223333</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- Constructor Injection -->
+	<bean id="accountService" class="hu.epam.course.spring.service.DefaultAccountService"
+		init-method="customInit" destroy-method="customDestroy">
+		<constructor-arg ref="accountDAO" />
+		<constructor-arg value="24" />
+	</bean>
+
+	<bean id="accountDAO" class="hu.epam.course.spring.dao.DefaultAccountDAO">
+		<property name="acc" ref="hu.epam.course.spring.model.Account" />
+		<!-- Compound property value -->
+		<property name="acc.owner" ref="hu.epam.course.spring.model.User" />
+	</bean>
+
+	<!-- Property Injection -->
+	<bean class="hu.epam.course.spring.model.Account">
+		<property name="accountName" value="account1" />
+		<property name="accountNumber" value="12345467-00000000-12345678" />
+		<property name="balance" value="1234.234" />
+	</bean>
+
+	<!-- Property Injection -->
+	<bean class="hu.epam.course.spring.model.User">
+		<property name="name" value="Teszt Elek" />
+		<property name="userId" value="1" />
+	</bean>
+
+	<bean class="hu.epam.course.spring.service.LoggerPostProcessor" />
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages"></property>
+	</bean>
+
+
+	<bean class="hu.epam.course.spring.events.ACSEventHandler" />
+
+	<bean class="hu.epam.course.spring.events.CustomMsgEventHandler" />
+
+</beans>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="account1" class="com.epam.course.model.Account">
+		<property name="accountName" value="Personal account" />
+		<property name="accountNumber" value="111-222-333" />
+		<property name="balance" value="1000" />
+		<property name="owner" ref="user2" />
+	</bean>
+
+	<bean id="user1" class="com.epam.course.model.User">
+		<property name="name" value="John Smith" />
+		<property name="userId" value="1" />
+		<property name="account" ref="account2" />
+	</bean>
+
+	<bean id="account2" class="com.epam.course.model.Account">
+		<property name="accountName" value="Saving account" />
+		<property name="accountNumber" value="112-222-333" />
+		<property name="balance" value="2000" />
+		<property name="owner" ref="user1" />
+	</bean>
+
+	<bean id="user2" class="com.epam.course.model.User">
+		<property name="name" value="Jenifer Smith" />
+		<property name="userId" value="2" />
+		<property name="account" ref="account1" />
+		<property name="addresses">
+			<map>
+				<entry key="PERMANENT" value-ref="address1"/>
+				<entry key="MAILING" value-ref="address2"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="defaultAccountDAO" class="com.epam.course.dao.DefaultAccountDAO">
+		<constructor-arg ref="account1"></constructor-arg>
+	</bean>
+
+	<bean id="defaultAccountService" class="com.epam.course.service.DefaultAccountService">
+		<constructor-arg ref="defaultAccountDAO"></constructor-arg>
+	</bean>
+
+	<bean id="address1" class="com.epam.course.model.Address">
+		<property name="city" value="Szeged"></property>
+		<property name="country" value="Hungary"></property>
+		<property name="street" value="Szerb"></property>
+		<property name="zip" value="6771"></property>
+	</bean>
+
+	<bean id="address2" class="com.epam.course.model.Address">
+		<property name="city" value="Budapest"></property>
+		<property name="country" value="Hungary"></property>
+		<property name="street" value="Tétényi"></property>
+		<property name="zip" value="1119"></property>
+	</bean>
+</beans>

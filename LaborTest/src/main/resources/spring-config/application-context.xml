@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
 	<bean id="account1" class="com.epam.course.model.Account">
 		<property name="accountName" value="Personal account" />
@@ -10,11 +12,12 @@
 		<property name="owner" ref="user2" />
 	</bean>
 
-	<bean id="user1" class="com.epam.course.model.User">
-		<property name="name" value="John Smith" />
-		<property name="userId" value="1" />
-		<property name="account" ref="account2" />
-	</bean>
+	<!-- <bean id="user1" class="com.epam.course.model.User"> <property name="name" 
+		value="John Smith" /> <property name="userId" value="1" /> <property name="account" 
+		ref="account2" /> </bean> -->
+
+	<bean id="user1" class="com.epam.course.model.User" p:name="John Smith"
+		p:userId="1" p:account-ref="account2" />
 
 	<bean id="account2" class="com.epam.course.model.Account">
 		<property name="accountName" value="Saving account" />
@@ -27,21 +30,19 @@
 		<property name="name" value="Jenifer Smith" />
 		<property name="userId" value="2" />
 		<property name="account" ref="account1" />
-		<property name="addresses">
-			<map>
-				<entry key="PERMANENT" value-ref="address1"/>
-				<entry key="MAILING" value-ref="address2"/>
-			</map>
-		</property>
+		<property name="addresses" ref="addressMap" />
 	</bean>
+	
+	<util:map id="addressMap" map-class="java.util.HashMap">
+		<entry key="PERMANENT" value-ref="address1" />
+		<entry key="MAILING" value-ref="address2" />
+	</util:map>
 
-	<bean id="defaultAccountDAO" class="com.epam.course.dao.DefaultAccountDAO">
-		<constructor-arg ref="account1"></constructor-arg>
-	</bean>
+	<bean id="defaultAccountDAO" class="com.epam.course.dao.DefaultAccountDAO"
+		c:_0-ref="account1" />
 
-	<bean id="defaultAccountService" class="com.epam.course.service.DefaultAccountService">
-		<constructor-arg ref="defaultAccountDAO"></constructor-arg>
-	</bean>
+	<bean id="defaultAccountService" class="com.epam.course.service.DefaultAccountService"
+		c:accountDAO-ref="defaultAccountDAO" />
 
 	<bean id="address1" class="com.epam.course.model.Address">
 		<property name="city" value="Szeged"></property>

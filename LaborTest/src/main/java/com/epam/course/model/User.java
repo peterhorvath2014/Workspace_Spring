@@ -6,18 +6,18 @@ public class User {
 	private String name;
 	private int userId;
 	private Account account;
-	private Map<AddressType, Address> addresses;
+	private Map<String, Address> addresses;
 	
 	@Override
 	public String toString() {
 		return "User [name=" + name + ", userId=" + userId + ", addresses=" + addresses + "]";
 	}
 
-	public Map<AddressType, Address> getAddresses() {
+	public Map<String, Address> getAddresses() {
 		return addresses;
 	}
 
-	public void setAddresses(Map<AddressType, Address> addresses) {
+	public void setAddresses(Map<String, Address> addresses) {
 		this.addresses = addresses;
 	}
 

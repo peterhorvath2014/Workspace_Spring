@@ -1,10 +1,18 @@
 package com.epam.course.model;
 
-public class Address {
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
+public class Address implements BeanFactoryAware, ApplicationContextAware {
 	private String country;
 	private String zip;
 	private String city;
 	private String street;
+	public static String ADDRESS_TYPE_MAILING = "M";
+	public static String ADDRESS_TYPE_PERMANENT = "P";
 
 	public String getCountry() {
 		return country;
@@ -43,4 +51,16 @@ public class Address {
 		return "Address [country=" + country + ", zip="
 				+ zip + ", city=" + city + ", street=" + street + "]";
 	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
+		System.out.println(applicationContext.getDisplayName());		
+	}
+
+	@Override
+	public void setBeanFactory(BeanFactory arg0) throws BeansException {
+System.out.println("BeanFactory: " + arg0);		
+	}
+
 }

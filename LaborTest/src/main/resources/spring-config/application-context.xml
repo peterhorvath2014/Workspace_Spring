@@ -14,7 +14,7 @@
 		p:balance="1000" p:owner-ref="user2" />
 
 	<bean id="user1" class="com.epam.course.model.User" p:name="John Smith"
-		p:userId="1" p:account-ref="account2" />
+		p:userId="1" p:account-ref="account2" p:birthdate="1981-04-18" />
 
 	<bean id="account2" class="com.epam.course.model.Account"
 		p:accountName="Saving account" p:accountNumber="112-222-333"
@@ -48,17 +48,50 @@
 	</bean>
 
 	<bean id="address2" class="com.epam.course.model.Address">
-		<property name="city" value="Budapest"></property>
-		<property name="country" value="Hungary"></property>
+		<property name="city" value="#{addressProps[country]}"></property>
+		<property name="country" value="$country"></property>
 		<property name="street" value="Tétényi"></property>
 		<property name="zip" value="1119"></property>
 	</bean>
-	
+
 	<bean id="address3" class="com.epam.course.model.Address" scope="prototype">
-		<property name="city" value="Budapest"></property>
-		<property name="country" value="Hungary"></property>
+		<property name="city" value="#{addressProps[country]}"></property>
+		<property name="country" value="${country}"></property>
 		<property name="street" value="Tétényi"></property>
 		<property name="zip" value="1119"></property>
 	</bean>
-	<bean id="myBeanProc" class="com.epam.course.main.MyBeanProcessor"/>
+	<bean id="myBeanProc" class="com.epam.course.main.MyBeanProcessor"
+		p:observedClasses="com.epam.course.service.DefaultAccountService" />
+
+	<bean id="dateEditor"
+		class="org.springframework.beans.propertyeditors.CustomDateEditor">
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="yyyy-MM-dd" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+	</bean>
+
+	<bean id="myEditorRegistrar" class="com.epam.course.custom.MyEditorRegistrar" />
+
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="propertyEditorRegistrars">
+			<list>
+				<ref bean="myEditorRegistrar" />
+			</list>
+		</property>
+	</bean>
+
+
+	<util:properties id="addressProps"
+		location="classpath:properties/address.properties" />
+	<context:property-placeholder location="classpath:properties/address.properties" />
+
+	<bean id="defaultCommandNew" class="com.epam.course.custom.DefaultCommandNew"
+		scope="prototype" />
+	<bean id="commandManager" class="com.epam.course.custom.CommandManagerNew">
+		<lookup-method name="createCommand" bean="defaultCommandNew"/>
+	</bean>
+
 </beans>

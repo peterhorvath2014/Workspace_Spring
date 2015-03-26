@@ -32,7 +32,7 @@ public class MyBeanProcessor implements BeanPostProcessor {
 	@Override
 	public Object postProcessBeforeInitialization(Object arg0, String arg1)
 			throws BeansException {
-		System.out.println("postProcessBeforeInitialization: " + arg1);
+		System.out.println("ppbi: " + arg1);
 		return arg0;
 	}
 

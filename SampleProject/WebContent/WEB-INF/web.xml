@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>SampleProject</display-name>
+
+	<servlet>
+		<servlet-name>HelloPlain</servlet-name>
+		<servlet-class>com.epam.firstservletpackage.HelloPlain</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>HelloPlain</servlet-name>
+		<url-pattern>/HelloPlain</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Hello</servlet-name>
+		<servlet-class>com.epam.firstservletpackage.Hello</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Hello</servlet-name>
+		<url-pattern>/Hello</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>HelloName</servlet-name>
+		<servlet-class>com.epam.firstservletpackage.HelloName</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>HelloName</servlet-name>
+		<url-pattern>/HelloName</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>HelloMessage</servlet-name>
+		<servlet-class>com.epam.firstservletpackage.HelloMessage</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>HelloMessage</servlet-name>
+		<url-pattern>/HelloMessage</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>HelloForm</servlet-name>
+		<servlet-class>com.epam.firstservletpackage.HelloForm</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>HelloForm</servlet-name>
+		<url-pattern>/HelloForm</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PlayerList</servlet-name>
+		<servlet-class>com.epam.firstservletpackage.PlayerList</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>PlayerList</servlet-name>
+		<url-pattern>/PlayerList</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PlayerDetails</servlet-name>
+		<servlet-class>com.epam.firstservletpackage.PlayerDetails</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>PlayerDetails</servlet-name>
+		<url-pattern>/PlayerDetails</url-pattern>
+	</servlet-mapping>
+</web-app>

@@ -1,0 +1,2 @@
+nickname, full name, 13, 432
+nickname2, full name2, 23, 12
